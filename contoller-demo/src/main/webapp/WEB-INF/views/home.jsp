@@ -7,7 +7,6 @@
 <title>Insert title here</title>
 </head>
 <body>
-<h1>This is C JSP</h1>
-<h3>${username}</h3>
+<h1>This is Home</h1>
 </body>
 </html>
