@@ -29,11 +29,13 @@ public class User {
 	
 	@Column(length = 20, unique = true) //제약조건
 	private String username; // 아이디
+	@Column(nullable = false) //널 불가능
     private String password; // 비밀번호
-
+	@Column(nullable = false)
     private String name; // 별명
     private String website; // 개인 웹사이트 주소
     private String bio; // 자기소개
+    @Column(nullable = false)
     private String email; // 이메일
     private String phone; // 전화번호
     private String gender; // 성별

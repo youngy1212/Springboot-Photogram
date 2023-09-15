@@ -1,11 +1,19 @@
 package com.cos.photogramstart.web;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.validation.Valid;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.cos.photogramstart.domain.user.User;
 import com.cos.photogramstart.service.AuthService;
@@ -17,8 +25,6 @@ import lombok.RequiredArgsConstructor;
 @Controller // 1. Ioc 등록 2. 파일을 리턴하는 컨트롤러
 public class AuthContoller {
 	
-	private static final Logger log =  LoggerFactory.getLogger(AuthContoller.class);
-
 	private final AuthService authService;
 	
 	
@@ -41,15 +47,26 @@ public class AuthContoller {
 	//회원가입버튼 -> /auth/signup -> /auth/signin 리턴
 	//회원가입 클릭 X 아무것도 발동안함 -> why? CSRF 토큰이 실행중이라.
 	@PostMapping("/auth/signup")
-	public String signup(SignupDto signupDto) { //key = value (x-www-form-urlencoded 방식으로 들어옴)
-		//회원가입 실행
-		log.info(signupDto.toString());
-		//User <- SignupDto 데이터를 넣는것!
-		User user = signupDto.toEntity();
-		log.info(user.toString());
-		User userEntity = authService.회원가입(user);
-		System.out.println(userEntity);
-		return "auth/signin"; //회원가입 완료 후 로그인 페이지로 이동
+	public String signup(@Valid SignupDto signupDto, BindingResult bindingResult) { //key = value (x-www-form-urlencoded 방식으로 들어옴)
+		
+		if(bindingResult.hasErrors()) { //오류값이 하나라도 있다면 (모아줌)
+			Map<String, String> errorMap = new HashMap<>();
+			
+			for(FieldError error: bindingResult.getFieldErrors()) {
+				errorMap.put(error.getField(),error.getDefaultMessage()); //모아준 오류를 넣어줌
+				System.out.println(error.getDefaultMessage());
+			}
+			
+			return "오류남";
+		}else {
+			//회원가입 실행
+			//User <- SignupDto 데이터를 넣는것!
+			User user = signupDto.toEntity();
+			User userEntity = authService.회원가입(user);
+			return "auth/signin"; //회원가입 완료 후 로그인 페이지로 이동
+		}
+		
+		
 	}
 	
 }
