@@ -1,14 +1,22 @@
 package com.cos.photogramstart.confing;
 
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @EnableWebSecurity //해당 파일로 시큐리티 활성화
 @Configuration //IOC
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
+	
+	@Bean  //IOC 되어 encode를 spring이 들 고 있음 -> servcie에서 사용하면 됨
+	public BCryptPasswordEncoder encode() {
+		return new BCryptPasswordEncoder();
+	}
+	
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		//super 삭제 - 기존 시큐리티가 가지고 있는 기능 다 비활성화 
