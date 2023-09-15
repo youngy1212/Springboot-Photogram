@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.cos.photogramstart.domain.user.User;
+import com.cos.photogramstart.handler.ex.CustomValidationException;
 import com.cos.photogramstart.service.AuthService;
 import com.cos.photogramstart.web.dto.auth.SignupDto;
 
@@ -56,8 +57,7 @@ public class AuthContoller {
 				errorMap.put(error.getField(),error.getDefaultMessage()); //모아준 오류를 넣어줌
 				System.out.println(error.getDefaultMessage());
 			}
-			
-			return "오류남";
+			throw new CustomValidationException("유효성 검사 실패함",errorMap);
 		}else {
 			//회원가입 실행
 			//User <- SignupDto 데이터를 넣는것!
