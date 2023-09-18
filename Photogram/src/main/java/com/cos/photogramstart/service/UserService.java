@@ -9,6 +9,8 @@ import org.springframework.stereotype.Service;
 
 import com.cos.photogramstart.domain.user.User;
 import com.cos.photogramstart.domain.user.UserRepository;
+import com.cos.photogramstart.handler.ex.CustomApiException;
+import com.cos.photogramstart.handler.ex.CustomValidationApiException;
 
 import lombok.RequiredArgsConstructor;
 
@@ -23,9 +25,10 @@ public class UserService {
 	public User 회원수정(int id, User user) {
 		//1. 영속화
 		//1. 무조건 찾았다. 걱정마 get() 2. 못찾았어 익셉션 발생시킬께 orElseThorw()  
-		User userEntity = userRepository.findById(id).orElseThrow(() ->{
-			return new IllegalArgumentException("찾을 수 없는 아이디입니다");
-			});
+		 User userEntity = 
+			        userRepository.findById(id).orElseThrow(() -> {
+			            return new CustomValidationApiException("찾을 수 없는 ID입니다.");
+			                });
 
 		String rawPassword = user.getPassword();
 		String encPassword = bCryptPasswordEncoder.encode(rawPassword);
