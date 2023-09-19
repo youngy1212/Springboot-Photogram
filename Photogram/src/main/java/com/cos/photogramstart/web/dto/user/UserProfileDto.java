@@ -14,8 +14,10 @@ import lombok.NoArgsConstructor;
 @Data
 public class UserProfileDto {
 
-	private boolean pageOwnerState;
-	private int imageCount;
+	private boolean PageOwnerState; // 페이지 주인 여부 [1 : 주인o] [-1 : 주인x]
+	  
+	private int imageCount;// 업로드된 페이지 개수
 	//view 페이지 말고 최대한 뒤쪽에서 연산 다해서 넘기는게 좋음
-	private User user;
+	
+	private User user;// 접속한 유저정보를 받을 유저 오브젝트
 }
