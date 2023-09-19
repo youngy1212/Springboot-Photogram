@@ -44,7 +44,8 @@ public class UserApiController {// 데이터를 응답하는 애들 API컨트롤
 		}else {
 			User userEntity = userService.회원수정(id, userUpdateDto.toEntity()); // DB상 변경은 되지면 화면 변화X , 세션정보는 바뀌지 않았기 때문
 			principalDetails.setUser(userEntity);
-			return new CMRespDto<>(1, "회원수정 완료", userEntity);
+			return new CMRespDto<>(1, "회원수정 완료", userEntity); //응답시에 userEntity 모든 getter 함수가 호출이 되고, JSON으로 파싱하여 응답한다.
+			
 		}
 	}
 
