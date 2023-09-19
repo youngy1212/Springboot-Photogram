@@ -32,6 +32,7 @@ public class ControllerExceptionHandler {
 		}	
 	}
 	
+	//profile 페이지에서 사용될 핸들러
 	@ExceptionHandler(CustomException.class) 
 	public String exception(CustomException e) {
 		return Script.back(e.getMessage());

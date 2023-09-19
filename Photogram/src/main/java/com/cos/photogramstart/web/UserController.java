@@ -31,7 +31,7 @@ public class UserController {
 	public String update(@PathVariable int id, @AuthenticationPrincipal PrincipalDetails principalDetails) {
 		//세션에 있는 정보 접근하는 방법
 		//1. 어노테이션을 활용(추천!)
-		System.out.println(principalDetails.getUser());
+		//System.out.println(principalDetails.getUser());
 		//2. 직접 찾아가는법
 //		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 //		PrincipalDetails mprincipalDetails = (PrincipalDetails)auth.getPrincipal();

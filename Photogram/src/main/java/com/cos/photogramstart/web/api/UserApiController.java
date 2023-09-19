@@ -39,7 +39,6 @@ public class UserApiController {// 데이터를 응답하는 애들 API컨트롤
 			
 			for(FieldError error: bindingResult.getFieldErrors()) {
 				errorMap.put(error.getField(),error.getDefaultMessage()); 
-				System.out.println(error.getDefaultMessage());
 			}
 			throw new CustomValidationApiException("유효성 검사 실패함",errorMap);
 		}else {

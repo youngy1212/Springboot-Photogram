@@ -7,6 +7,7 @@ import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.cos.photogramstart.confing.auth.PrincipalDetails;
 import com.cos.photogramstart.domain.image.ImageRepository;
@@ -24,6 +25,7 @@ public class ImageService {
 	
 	private final ImageRepository imageRepository;
 	
+	@Transactional
 	public void 사진업로드(ImageUploadDto imageUploadDto, PrincipalDetails principalDetails ) {
 		
 		UUID uuid = UUID.randomUUID(); //uuid
@@ -44,8 +46,8 @@ public class ImageService {
 		Image image = imageUploadDto.toEntity(imageFileName, principalDetails.getUser());
 		Image imageEntity = imageRepository.save(image);
 		
-		System.out.println(imageEntity);
-		
+		//System.out.println(imageEntity.toString());  //toString 무한참조 오류
+
 	}
 		
 }
