@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.cos.photogramstart.domain.user.User;
 import com.cos.photogramstart.domain.user.UserRepository;
+import com.cos.photogramstart.domain.user.subscribe.SubscribeRepository;
 import com.cos.photogramstart.handler.ex.CustomApiException;
 import com.cos.photogramstart.handler.ex.CustomException;
 import com.cos.photogramstart.handler.ex.CustomValidationApiException;
@@ -20,11 +21,12 @@ import lombok.RequiredArgsConstructor;
 public class UserService {
 	
 	private final UserRepository userRepository;
+	private final SubscribeRepository subscribeRepository;
 	private final BCryptPasswordEncoder bCryptPasswordEncoder;
 	
 	
 	@Transactional(readOnly = true)
-	public UserProfileDto 회원프로필(int pageUserId, int pricipalId) { //로그인 유저가 아닌 볼 유저
+	public UserProfileDto 회원프로필(int pageUserId, int principalId) { //로그인 유저가 아닌 볼 유저
 		UserProfileDto dto = new UserProfileDto();
 		
 		//SELECT * FROM image WHERE userId = :userId;
@@ -33,8 +35,16 @@ public class UserService {
 		});
 		
 		dto.setUser(userEntity);
-		dto.setPageOwnerState(pageUserId == pricipalId); //1은 페이지 주인 -1은 주인아님
+		dto.setPageOwnerState(pageUserId == principalId); //1은 페이지 주인 -1은 주인아님
 		dto.setImageCount(userEntity.getImages().size());
+		
+		 // DTO에 구독정보 담기
+        int subscribeState = subscribeRepository.mSubscribeState(principalId, pageUserId);
+        int subscribeCount = subscribeRepository.mSubscribeCount(pageUserId);
+		
+        dto.setSubscribeState(subscribeState == 1);
+        dto.setSubscribeCount(subscribeCount);
+		
 		return dto;
 	}
 	
