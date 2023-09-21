@@ -15,14 +15,7 @@ import lombok.RequiredArgsConstructor;
 @Service
 public class LikesService {
 
-	private final LikesRepository likesRepository;
-
-	@Transactional(readOnly = true)
-	public List<Image> 인기사진() {
-		return  likesRepository.mPopular();
-	}
-
-	
+	private final LikesRepository likesRepository;	
 	
 	@Transactional
 	public void 좋아요(int imageId, int principalId) {

@@ -78,4 +78,9 @@ public class ImageService {
 
 	}
 
+	@Transactional(readOnly = true)
+	public List<Image> 인기사진() {
+		return imageRepository.mPopular();
+	}
+
 }
