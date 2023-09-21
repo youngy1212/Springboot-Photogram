@@ -44,6 +44,13 @@ public class UserService {
 		
         dto.setSubscribeState(subscribeState == 1);
         dto.setSubscribeCount(subscribeCount);
+        
+        //1번 방법 좋아요 카운트 추가하기
+        userEntity.getImages().forEach((image)->{
+        	image.setLikeCount(image.getLikes().size());
+        });
+        
+        //2번방법 .jsp에서 ${image.likes.size()} 로 적어도 가능
 		
 		return dto;
 	}
