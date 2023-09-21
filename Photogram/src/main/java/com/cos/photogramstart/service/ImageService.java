@@ -3,9 +3,12 @@ package com.cos.photogramstart.service;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,11 +23,17 @@ import lombok.RequiredArgsConstructor;
 @Service
 public class ImageService {
 	
+	private final ImageRepository imageRepository;
+	
+	@Transactional(readOnly = true) //영속성 컨텍스트 변경 감지를 해서  데티체킹, flush 반영 X
+	public Page<Image> 이미지스토리(int principalId,Pageable pageable){
+		Page<Image> images  =  imageRepository.mStory(principalId,pageable);
+		return images;
+	}
+	
 	//6. 이미지가 저장되는 경로 호출하기
 	@Value("${file.path}")
 	private String uploadFolder; //yml에 적어놓은 파일 경로 가져오기
-	
-	private final ImageRepository imageRepository;
 	
 	@Transactional
 	public void 사진업로드(ImageUploadDto imageUploadDto, PrincipalDetails principalDetails ) {
@@ -55,5 +64,5 @@ public class ImageService {
 		//System.out.println(imageEntity.toString());  //toString 무한참조 오류
 
 	}
-		
+
 }
