@@ -64,19 +64,18 @@ public class UserApiController {// 데이터를 응답하는 애들 API컨트롤
 			BindingResult bindingResult, //꼭 @Valid가 적혀있는 다음 파라미터에 적어야함
 			@AuthenticationPrincipal PrincipalDetails principalDetails) {
 		
-		if(bindingResult.hasErrors()) { 
-			Map<String, String> errorMap = new HashMap<>();
-			
-			for(FieldError error: bindingResult.getFieldErrors()) {
-				errorMap.put(error.getField(),error.getDefaultMessage()); 
-			}
-			throw new CustomValidationApiException("유효성 검사 실패함",errorMap);
-		}else {
+//		if(bindingResult.hasErrors()) { //aop로 처리
+//			Map<String, String> errorMap = new HashMap<>();
+//			
+//			for(FieldError error: bindingResult.getFieldErrors()) {
+//				errorMap.put(error.getField(),error.getDefaultMessage()); 
+//			}
+//			throw new CustomValidationApiException("유효성 검사 실패함",errorMap);
+//		}else {
 			User userEntity = userService.회원수정(id, userUpdateDto.toEntity()); // DB상 변경은 되지면 화면 변화X , 세션정보는 바뀌지 않았기 때문
 			principalDetails.setUser(userEntity);
 			return new CMRespDto<>(1, "회원수정 완료", userEntity); //응답시에 userEntity 모든 getter 함수가 호출이 되고, JSON으로 파싱하여 응답한다.
 			
-		}
 	}
 
 }

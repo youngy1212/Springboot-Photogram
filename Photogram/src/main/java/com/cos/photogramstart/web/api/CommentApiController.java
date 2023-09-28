@@ -36,14 +36,14 @@ public class CommentApiController {
     		 BindingResult bindingResult,
     		@AuthenticationPrincipal PrincipalDetails principalDetails){
 	
-		if(bindingResult.hasErrors()) { 
-			Map<String, String> errorMap = new HashMap<>();
-			
-			for(FieldError error: bindingResult.getFieldErrors()) {
-				errorMap.put(error.getField(),error.getDefaultMessage()); 
-			}
-			throw new CustomValidationApiException("유효성 검사 실패함",errorMap);
-		}
+//		if(bindingResult.hasErrors()) {  aop로 처리
+//			Map<String, String> errorMap = new HashMap<>();
+//			
+//			for(FieldError error: bindingResult.getFieldErrors()) {
+//				errorMap.put(error.getField(),error.getDefaultMessage()); 
+//			}
+//			throw new CustomValidationApiException("유효성 검사 실패함",errorMap);
+//		}
 	 Comment comment = commentService.댓글쓰기(commentDto.getContent(), commentDto.getImageId(), principalDetails.getUser().getId());
 	 return new ResponseEntity<>(
             new CMRespDto<>(1, "댓글쓰기 성공", comment), HttpStatus.CREATED);

@@ -50,21 +50,20 @@ public class AuthContoller {
 	@PostMapping("/auth/signup")
 	public String signup(@Valid SignupDto signupDto, BindingResult bindingResult) { //key = value (x-www-form-urlencoded 방식으로 들어옴)
 		
-		if(bindingResult.hasErrors()) { //오류값이 하나라도 있다면 (모아줌)
-			Map<String, String> errorMap = new HashMap<>();
-			
-			for(FieldError error: bindingResult.getFieldErrors()) {
-				errorMap.put(error.getField(),error.getDefaultMessage()); //모아준 오류를 넣어줌
-				System.out.println(error.getDefaultMessage());
-			}
-			throw new CustomValidationException("유효성 검사 실패함",errorMap);
-		}else {
+//		if(bindingResult.hasErrors()) { //오류값이 하나라도 있다면 (모아줌)
+//			Map<String, String> errorMap = new HashMap<>();
+//			
+//			for(FieldError error: bindingResult.getFieldErrors()) {
+//				errorMap.put(error.getField(),error.getDefaultMessage()); //모아준 오류를 넣어줌
+//				System.out.println(error.getDefaultMessage());
+//			}
+//			throw new CustomValidationException("유효성 검사 실패함",errorMap);
+//		}else {
 			//회원가입 실행
 			//User <- SignupDto 데이터를 넣는것!
 			User user = signupDto.toEntity();
 			User userEntity = authService.회원가입(user);
 			return "auth/signin"; //회원가입 완료 후 로그인 페이지로 이동
-		}
 		
 		
 	}

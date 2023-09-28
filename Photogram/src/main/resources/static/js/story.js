@@ -158,9 +158,9 @@ function addComment(imageId) {
         content: commentInput.val()
     }
 
-    console.log(data.content);
+  console.log(data.content);
 
-   if (data.content === "") {
+  if (data.content === "") {
         alert("댓글을 작성해주세요!");
         return;
     }
@@ -190,7 +190,7 @@ function addComment(imageId) {
         commentList.prepend(content);
 
     }).fail(error => {
-        console.log("댓글쓰기 실패", error);
+        console.log("댓글쓰기 실패", error.responseJSON.data.content);
         alert("오류 : " + error.responseJSON.data.content);
     });
 
