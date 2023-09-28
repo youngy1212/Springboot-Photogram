@@ -14,6 +14,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 import javax.persistence.Transient;
 
+import com.cos.photogramstart.domain.comment.Comment;
 import com.cos.photogramstart.domain.likes.Likes;
 import com.cos.photogramstart.domain.user.User;
 import com.cos.photogramstart.domain.user.subscribe.Subscribe;
@@ -52,7 +53,10 @@ public class Image { //N, 1
 	@Transient 
 	private int likeCount;
 	
-	//댓글 
+	//댓글 양방향 맵핑
+	@JsonIgnoreProperties({"image"})
+	@OneToMany(mappedBy = "image")
+	private List<Comment> comments;
 	
 	private LocalDateTime createDate;
 
