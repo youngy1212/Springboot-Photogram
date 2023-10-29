@@ -33,7 +33,7 @@ public class User {
 	@GeneratedValue(strategy = GenerationType.IDENTITY) //번호 증가 전략이 데이터 베이스를 따라감
 	private int id;  // 데이터가 들어갈 때 마다 번호를 매겨줄것임.
 	
-	@Column(length = 20, unique = true) //제약조건
+	@Column(length = 100, unique = true) //제약조건 Oauth 2 로그인을 위해 길이 늘리기
 	private String username; // 아이디
 	@Column(nullable = false) //널 불가능
     private String password; // 비밀번호

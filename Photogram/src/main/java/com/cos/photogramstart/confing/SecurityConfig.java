@@ -7,10 +7,17 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+import com.cos.photogramstart.confing.oauth.OAuth2DetailService;
+
+import lombok.RequiredArgsConstructor;
+
+
+@RequiredArgsConstructor //서비스 가져오기
 @EnableWebSecurity //해당 파일로 시큐리티 활성화
 @Configuration //IOC
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
+	private final OAuth2DetailService oAuth2DetailService;
 	
 	@Bean  //IOC 되어 encode를 spring이 들 고 있음 -> servcie에서 사용하면 됨
 	public BCryptPasswordEncoder encode() {
@@ -32,8 +39,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         .formLogin() // 로그인(인증)이 필요한 요청이 들어오면
 		.loginPage("/auth/signin") // 로그인페이지 auth/signin 으로 이동시키고(GET요청)
 		.loginProcessingUrl("/auth/signin")//POST -> 스프링 시큐리티가 로그인 프로세스 진행
-		.defaultSuccessUrl("/"); // 인증이 정삭적으로 완료되면 / 로 이동한다.
-		
+		.defaultSuccessUrl("/") // 인증이 정삭적으로 완료되면 / 로 이동한다.
+		.and()
+		.oauth2Login() //form로그인도 하는데, oauth2로그인도 할꺼야!
+		.userInfoEndpoint() //oauth로그인을 하면 최종응답을 회원정보로 바로 받을 수 있다. (Access TotkenX)
+		.userService(oAuth2DetailService); //해당을 받는 서비스 
 		
 	}
 }

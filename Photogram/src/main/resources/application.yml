@@ -35,6 +35,18 @@ spring:
     user:
       name: test
       password: 1234   
-
+      
+    oauth2:
+      client:
+        registration:
+         facebook:
+            client-id: ##id
+            client-secret: ##시크릿키
+            scope:
+            - public_profile
+            - email
+        
+          
+  
 file:
   path: C:/project/Springboot-Photogram/upload/
