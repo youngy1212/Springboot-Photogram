@@ -6,6 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.cos.photogramstart.domain.user.User;
 import com.cos.photogramstart.domain.user.UserRepository;
+import com.cos.photogramstart.handler.ex.CustomValidationException;
 
 import lombok.RequiredArgsConstructor;
 
@@ -23,7 +24,17 @@ public class AuthService {
 		String encPassword = bCryptPasswordEncoder.encode(rawPassword);
 		user.setPassword(encPassword);
 		user.setRole("ROLE_USER");
-		User userEntity = userRepository.save(user);
-		return userEntity;
+		
+		
+		//중복가입 체크
+		User findUsername = userRepository.findByUsername(user.getUsername());
+		if(findUsername == null) {
+			User userEntity = userRepository.save(user);
+			return userEntity;
+		}else {
+			throw new CustomValidationException("이미 존재하는 아이디 입니다.", null);
+		}
+		
+		
 	}
 }

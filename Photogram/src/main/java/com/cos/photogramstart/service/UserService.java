@@ -102,12 +102,21 @@ public class UserService {
 
 		//2. 영속화된 오브젝트를 수정 - 더티체킹(업데이트 완료)
 		userEntity.setName(user.getName());
-		userEntity.setPassword(encPassword);
+		userEntity.setPassword(user.getPassword());
 		userEntity.setBio(user.getBio());
 		userEntity.setWebsite(user.getWebsite());
 		userEntity.setPhone(user.getPhone());
 		userEntity.setGender(user.getGender());
-		return userEntity;
+		
+		//Oauth 추가로 비번 확인
+		if(userEntity.getPassword() == null) {
+			return userEntity;
+		}else {
+			userEntity.setPassword(encPassword);
+			return userEntity;
+		}
+		
+		
 	}//더티체킹이 일어나서 업데이트가 완료됨.
 
 

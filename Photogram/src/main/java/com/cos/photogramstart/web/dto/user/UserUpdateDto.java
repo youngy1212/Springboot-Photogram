@@ -10,7 +10,7 @@ import lombok.Data;
 public class UserUpdateDto {
 	@NotBlank
 	private String name; //필수
-	@NotBlank
+	 //@NotBlank 삭제 (OAuth추가)
 	private String password; //필수
 	//선택
 	private String website;
